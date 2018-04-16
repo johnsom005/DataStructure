@@ -16,31 +16,37 @@ int hashf(char *key, int size) {
 
 int main(void) {
 
+	//freopen("test.txt", "w", stdout);
+
 	srand(time(NULL));
 	HashPointer hash;
 	PointPointer p;
-	int i, len, j, max, q;
+	int i, len, j, max, q, total;
+	int count = 0;
 	char temp[8];
-	hash = hashInit(500);
-	
-	for (i = 0; i < 350; i++) {
+	hash = loadHash("test.dat");//
+	//hash = hashInit(20);
+	/*for (i = 0; i < 15; i++) {
 		len = rand() % 6 + 2;
 		for (j = 0; j < len; j++) {
 			temp[j] = (int)'a' + rand() % 26;
 		}
 		temp[j] = '\0';
 		printf("%s\\", temp);
-		hashInsert(hash, hashf, temp);
-	}
-	max = 0;
-	for (i = 0; i < 500; i++) {
+		if (hashInsert(hash, hashf, temp) > 0)count++;
+	}*/
+	max = total = 0;
+	for (i = 0; i < 20; i++) {
 		q = (hash->hash)[i].quantity;
-		printf("%d\n", q);
+		//printf("%d\n", q);
+		total += q;
+		if(q)printf("%d\\%d\n", i, total);
 		if (q > max) {
 			max = q;
 		}
 	}
-	printf("MAX:%d\n", max);
+	printf("MAX:%d count:%d Total:%d\n", max, hash->countId,total);
+	//saveHash("test.dat", hash);
 	while (1) {
 		scanf("%s", temp);
 		p = hashSearch(hash, hashf, temp);

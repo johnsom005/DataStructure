@@ -31,7 +31,7 @@ int hashInsert(const HashPointer hash, int(*h)(char*, int), const char* key);
 PointPointer hashSearch(const HashPointer hash, int(*h)(char*, int), const char* key);
 
 int saveHash(const char* filename, const HashPointer hashT);
-HashPointer loadHash(const char* filename, int size);
+HashPointer loadHash(const char* filename);
 
 
 #endif
