@@ -17,9 +17,9 @@ int hashf(char *key, int size) {
 int main(void) {
 
 	srand(time(NULL));
-	BeginPointer hash;
+	HashPointer hash;
 	PointPointer p;
-	int i, len, j, max;
+	int i, len, j, max, q;
 	char temp[8];
 	hash = hashInit(500);
 	
@@ -30,19 +30,20 @@ int main(void) {
 		}
 		temp[j] = '\0';
 		printf("%s\\", temp);
-		hashInsert(hash, 500, hashf, temp);
+		hashInsert(hash, hashf, temp);
 	}
 	max = 0;
 	for (i = 0; i < 500; i++) {
-		printf("%d\n", hash[i].quantity);
-		if (hash[i].quantity > max) {
-			max = hash[i].quantity;
+		q = (hash->hash)[i].quantity;
+		printf("%d\n", q);
+		if (q > max) {
+			max = q;
 		}
 	}
 	printf("MAX:%d\n", max);
 	while (1) {
 		scanf("%s", temp);
-		p = hashSearch(hash, 500, hashf, temp);
+		p = hashSearch(hash, hashf, temp);
 		if (p == NULL) {
 			printf("Not found\n");
 			continue;

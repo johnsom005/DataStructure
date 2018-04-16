@@ -3,48 +3,52 @@
 #include <string.h>
 #include "hash.h"
 
-int countId;
+//int countId;
 
-BeginPointer hashInit(int size) {
-	BeginPointer hash= (BeginPointer)malloc(sizeof(Begin)*size);
+HashPointer hashInit(int size) {
+	HashPointer hashT= (HashPointer)malloc(sizeof(Hash));
+	BeginPointer hash = (BeginPointer)malloc(sizeof(Begin)*size);
+	hashT->hash = hash;
+	hashT->countId = 1;
+	hashT->size = size;
 	int i;
-	countId = 1;
+	//countId = 1;
 	for (i = 0; i < size; i++) {
 		hash[i].quantity = 0;
 		hash[i].next = NULL;
 	}
-	return hash;
+	return hashT;
 }
-int hashInsert(const BeginPointer hash, int size, int (*h)(char*, int), const char* key) {
+int hashInsert(const HashPointer hash, int (*h)(char*, int), const char* key) {
 
-	int code = (*h)(key, size);
+	int code = (*h)(key, hash->size);
 	PointPointer point = (PointPointer)malloc(sizeof(Point));
 	PointPointer Pi;
 	strcpy(point->key, key);
 	point->next = NULL;
 
-	if (hash[code].next == NULL) {
-		hash[code].quantity++;
-		hash[code].next = point;
-		point->id = countId;
-		return countId++;
+	if ((hash->hash)[code].next == NULL) {
+		(hash->hash)[code].quantity++;
+		(hash->hash)[code].next = point;
+		point->id = hash->countId;
+		return (hash->countId)++;
 	}
-	for (Pi = hash[code].next; Pi; Pi = Pi->next) {
+	for (Pi = (hash->hash)[code].next; Pi; Pi = Pi->next) {
 		if (!strcmp(Pi->key, key)) {
 			return (Pi->id)*(-1);//if exist return -id
 		}
 	}
 	Pi = point;
-	hash[code].quantity++;
-	point->id = countId;
-	return countId++;
+	(hash->hash)[code].quantity++;
+	point->id = hash->countId;
+	return (hash->countId)++;
 }
-PointPointer hashSearch(const BeginPointer hash, int size, int(*h)(char*, int), const char* key) {
-	int code = (*h)(key, size);
+PointPointer hashSearch(const HashPointer hash, int(*h)(char*, int), const char* key) {
+	int code = (*h)(key, hash->size);
 	PointPointer Pi;
-	printf(":%d:", code);
-	if (!(hash[code].quantity))return NULL;
-	for (Pi = hash[code].next; Pi; Pi = Pi->next) {
+	printf(":%d:", code);//not
+	if (!((hash->hash)[code].quantity))return NULL;
+	for (Pi = (hash->hash)[code].next; Pi; Pi = Pi->next) {
 		if (!strcmp(Pi->key, key)) {
 			return Pi;
 		}
@@ -52,9 +56,9 @@ PointPointer hashSearch(const BeginPointer hash, int size, int(*h)(char*, int), 
 	return NULL;
 }
 
-int saveHash(const char* filename, const BeginPointer hashT) {
+int saveHash(const char* filename, const HashPointer hashT) {
 	return 1;
 }
-BeginPointer loadHash(const char* filename, int size) {
+HashPointer loadHash(const char* filename, int size) {
 	return NULL;
 }

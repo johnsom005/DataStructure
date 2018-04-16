@@ -17,14 +17,21 @@ typedef struct n {
 	PointPointer next;
 }Begin;
 
-extern int countId;
+typedef struct h *HashPointer;
+typedef struct h {
+	int countId;
+	BeginPointer hash;
+	int size;
+}Hash;
 
-BeginPointer hashInit(int size);
-int hashInsert(const BeginPointer hash, int size, int(*h)(char*, int), const char* key);
-PointPointer hashSearch(const BeginPointer hash, int size, int(*h)(char*, int), const char* key);
+//extern int countId;
 
-int saveHash(const char* filename, const BeginPointer hashT);
-BeginPointer loadHash(const char* filename, int size);
+HashPointer hashInit(int size);
+int hashInsert(const HashPointer hash, int(*h)(char*, int), const char* key);
+PointPointer hashSearch(const HashPointer hash, int(*h)(char*, int), const char* key);
+
+int saveHash(const char* filename, const HashPointer hashT);
+HashPointer loadHash(const char* filename, int size);
 
 
 #endif
